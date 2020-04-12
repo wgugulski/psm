@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+
+<div id="app">
+  <form action="">
+    Tytuł: <input id="tytul" type="text"><br>
+    Imię i nazwisko autora: <input id="imie_nazwisko" type="text"><br>
+    Gatunek literacki: <input id="gatunek" type="text"><br>
+    Rok wydania <input id="rok_wydania" type="date" name=""><br>
+    Numer ISBN: <input id="isbn"  type="text" name=""><br>
+    <button onclick="insertData()">Wyślij</button>
+  </form>
+</div> 
+
+<ul id="myList">
+
+</ul>
+
+
+
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBMEnBgDkZ1qPNitGbhRB-uhHIs8hl3FhQ",
+    authDomain: "firstbookproject-f3a74.firebaseapp.com",
+    databaseURL: "https://firstbookproject-f3a74.firebaseio.com",
+    projectId: "firstbookproject-f3a74",
+    storageBucket: "firstbookproject-f3a74.appspot.com",
+    messagingSenderId: "93451325552",
+    appId: "1:93451325552:web:ff4f589547694ef13424b5",
+    measurementId: "G-V07W9SMQBV"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+  
+
+function insertData() {
+    ref.push(getData())
+  }
+function getData() {
+  const tytul = document.getElementById('tytul').value
+  const imie = document.getElementById('imie_nazwisko').value
+  const gatunek = document.getElementById('gatunek').value
+  const rok = document.getElementById('rok_wydania').value
+  const isbn = document.getElementById('isbn').value
+
+  let book = {
+          gatunek: gatunek,
+          imie_nazwisko: imie, 
+          isbn: isbn,
+          rok_wydania: rok,
+          tytul: tytul
+        }
+      return book  
+      }
+
+
+  let database = firebase.database()
+  let ref = database.ref('books')
+  
+  ref.orderByChild('timestamp').limitToLast(1).on('child_added',function(snapshot) {
+    let datas = snapshot.val()
+      
+
+
+
+    JSON.parse(JSON.stringify(datas), (key, value) => {
+      let node = document.createElement("LI")
+      let textnode = document.createTextNode(key+ ": "+ value)
+      node.appendChild(textnode) 
+      document.getElementById("myList").appendChild(node)
+})
+
+
+    document.getElementById('tutaj').innerHTML = JSON.stringify(datas, null, '\t')
+});
+
+
+
+</script>
+</body>
+</html>

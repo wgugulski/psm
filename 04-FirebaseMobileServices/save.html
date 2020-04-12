@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-database.js"></script>
+
+
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBMEnBgDkZ1qPNitGbhRB-uhHIs8hl3FhQ",
+    authDomain: "firstbookproject-f3a74.firebaseapp.com",
+    databaseURL: "https://firstbookproject-f3a74.firebaseio.com",
+    projectId: "firstbookproject-f3a74",
+    storageBucket: "firstbookproject-f3a74.appspot.com",
+    messagingSenderId: "93451325552",
+    appId: "1:93451325552:web:ff4f589547694ef13424b5",
+    measurementId: "G-V07W9SMQBV"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.firestore()
+  var file = "./data.json"
+        fetch(file)
+            .then(response => response.json())
+            .then(file => {
+                for (let func of file) {
+                    var ourFil = db.doc('books/book' + func.isbn)
+
+                    ourFil.set({
+                        gatunek: func.gatunek,
+                        imie_nazwisko: func.imie_nazwisko,
+                        isbn: func.isbn,
+                        rok_wydania: func.rok_wydania,
+                        tytul: func.tytul
+                    })
+
+                }
+            })
+
+
+
+ 
+
+</script>
+</body>
+</html>
